@@ -12,7 +12,7 @@
             background-color: #f4f4f4;
         }
         .menu-container {
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
             background-color: white;
             border-radius: 8px;
@@ -25,16 +25,30 @@
         }
         .menu-item {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
+            padding: 15px 0;
             border-bottom: 1px solid #ddd;
         }
         .menu-item:last-child {
             border-bottom: none;
         }
+        .menu-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 15px;
+        }
+        .menu-item .item-details {
+            flex: 1;
+        }
         .menu-item label {
             font-size: 18px;
+            font-weight: bold;
+        }
+        .menu-item p {
+            margin: 5px 0;
+            color: #666;
         }
         .menu-item input {
             width: 30px;
@@ -46,41 +60,91 @@
             font-size: 20px;
             margin-top: 20px;
         }
+        .order-btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .order-btn:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
     <div class="menu-container">
         <h1>菜单点菜</h1>
+        
+        <!-- 菜品1 -->
         <div class="menu-item">
-            <label>宫保鸡丁 (¥30)</label>
-            <input type="checkbox" id="dish1" data-price="30">
+            <img src="https://via.placeholder.com/100" alt="宫保鸡丁">
+            <div class="item-details">
+                <label>宫保鸡丁 (¥30)</label>
+                <p>经典川菜之一，采用鸡胸肉丁与辣椒、花生、洋葱炒制而成，味道香辣可口，回味无穷。</p>
+                <input type="checkbox" id="dish1" data-price="30">
+            </div>
         </div>
+
+        <!-- 菜品2 -->
         <div class="menu-item">
-            <label>麻辣火锅 (¥50)</label>
-            <input type="checkbox" id="dish2" data-price="50">
+            <img src="https://via.placeholder.com/100" alt="麻辣火锅">
+            <div class="item-details">
+                <label>麻辣火锅 (¥50)</label>
+                <p>以麻辣为主打，锅底浓烈香辣，加入各种食材，涮煮出丰富的口感，适合喜欢辣味的食客。</p>
+                <input type="checkbox" id="dish2" data-price="50">
+            </div>
         </div>
+
+        <!-- 菜品3 -->
         <div class="menu-item">
-            <label>鱼香茄子 (¥28)</label>
-            <input type="checkbox" id="dish3" data-price="28">
+            <img src="https://via.placeholder.com/100" alt="鱼香茄子">
+            <div class="item-details">
+                <label>鱼香茄子 (¥28)</label>
+                <p>经典的鱼香味型，茄子入口柔软，配以酸甜的鱼香味调料，口感丰富，令人欲罢不能。</p>
+                <input type="checkbox" id="dish3" data-price="28">
+            </div>
         </div>
+
+        <!-- 菜品4 -->
         <div class="menu-item">
-            <label>糖醋里脊 (¥35)</label>
-            <input type="checkbox" id="dish4" data-price="35">
+            <img src="https://via.placeholder.com/100" alt="糖醋里脊">
+            <div class="item-details">
+                <label>糖醋里脊 (¥35)</label>
+                <p>外脆内嫩的里脊肉裹上酸甜的糖醋汁，口感鲜美，酸酸甜甜，层次感丰富。</p>
+                <input type="checkbox" id="dish4" data-price="35">
+            </div>
         </div>
+
+        <!-- 菜品5 -->
         <div class="menu-item">
-            <label>蒜蓉小龙虾 (¥60)</label>
-            <input type="checkbox" id="dish5" data-price="60">
+            <img src="https://via.placeholder.com/100" alt="蒜蓉小龙虾">
+            <div class="item-details">
+                <label>蒜蓉小龙虾 (¥60)</label>
+                <p>新鲜小龙虾，蒜蓉酱料炒制，香气扑鼻，辣味十足，是与朋友聚会时的完美选择。</p>
+                <input type="checkbox" id="dish5" data-price="60">
+            </div>
         </div>
+
         <div class="total-price">
             <p>总价: ¥<span id="total">0</span></p>
         </div>
+
+        <!-- 下单按钮 -->
+        <button class="order-btn" id="orderBtn">下单</button>
     </div>
 
     <script>
         // 获取所有菜品的复选框
         const checkboxes = document.querySelectorAll('input[type="checkbox"]');
         const totalPriceElement = document.getElementById('total');
-        
+        const orderBtn = document.getElementById('orderBtn');
+
         // 计算总价
         function updateTotalPrice() {
             let total = 0;
@@ -95,6 +159,23 @@
         // 监听复选框的变化
         checkboxes.forEach(checkbox => {
             checkbox.addEventListener('change', updateTotalPrice);
+        });
+
+        // 监听下单按钮的点击事件
+        orderBtn.addEventListener('click', function() {
+            const selectedItems = [];
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    const label = checkbox.previousElementSibling;
+                    selectedItems.push(label.textContent.trim());
+                }
+            });
+            
+            if (selectedItems.length > 0) {
+                alert("您已下单: \n" + selectedItems.join("\n") + "\n总价: ¥" + totalPriceElement.textContent);
+            } else {
+                alert("请先选择您想点的菜品！");
+            }
         });
     </script>
 </body>
